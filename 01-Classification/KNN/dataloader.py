@@ -19,14 +19,14 @@ def _extract_tensors(dset, num=None):
             )
         x = x[:num].clone()
         y = y[:num].clone()
-    return x, y
+    return x.numpy(), y.numpy()
 
 
-def cifar10(num_train=None, num_test=None):
+def cifar10(num_train=1000, num_test=100):
     download = not DIR_PATH.exists()
     trainset = CIFAR10(root=IMAGE_DIR, download=download, train=True)
     testset = CIFAR10(root=IMAGE_DIR, train=False)
-    x_train, y_train = _extract_tensors(trainset, trainset.data.shape[0])
-    x_test, y_test = _extract_tensors(testset, testset.data.shape[0])
+    x_train, y_train = _extract_tensors(trainset, num_train)
+    x_test, y_test = _extract_tensors(testset, num_test)
 
     return x_train, y_train, x_test, y_test
